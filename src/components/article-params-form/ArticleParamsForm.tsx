@@ -53,6 +53,15 @@ export const ArticleParamsForm = ({
     };
   }, [isSidebarOpen]);
 
+  const handleFieldChange =
+    <K extends keyof ArticleStateType>(field: K) =>
+    (selected: ArticleStateType[K]): void => {
+      setArticleFormState((prevState) => ({
+        ...prevState,
+        [field]: selected,
+      }));
+    };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     onApply(articleFormState);
@@ -81,58 +90,33 @@ export const ArticleParamsForm = ({
             title="Шрифт"
             selected={articleFormState.fontFamilyOption}
             options={fontFamilyOptions}
-            onChange={(selected) => {
-              setArticleFormState({
-                ...articleFormState,
-                fontFamilyOption: selected,
-              });
-            }}
+            onChange={handleFieldChange('fontFamilyOption')}
           />
           <RadioGroup
             name="fontSize"
             title="Размер шрифта"
             selected={articleFormState.fontSizeOption}
             options={fontSizeOptions}
-            onChange={(selected) => {
-              setArticleFormState({
-                ...articleFormState,
-                fontSizeOption: selected,
-              });
-            }}
+            onChange={handleFieldChange('fontSizeOption')}
           />
           <Select
             title="Цвет шрифта"
             selected={articleFormState.fontColor}
             options={fontColors}
-            onChange={(selected) => {
-              setArticleFormState({
-                ...articleFormState,
-                fontColor: selected,
-              });
-            }}
+            onChange={handleFieldChange('fontColor')}
           />
           <Separator />
           <Select
             title="Цвет фона"
             selected={articleFormState.backgroundColor}
             options={backgroundColors}
-            onChange={(selected) => {
-              setArticleFormState({
-                ...articleFormState,
-                backgroundColor: selected,
-              });
-            }}
+            onChange={handleFieldChange('backgroundColor')}
           />
           <Select
             title="Ширина контента"
             selected={articleFormState.contentWidth}
             options={contentWidthArr}
-            onChange={(selected) => {
-              setArticleFormState({
-                ...articleFormState,
-                contentWidth: selected,
-              });
-            }}
+            onChange={handleFieldChange('contentWidth')}
           />
           <div className={styles.bottomContainer}>
             <Button title="Сбросить" htmlType="reset" type="clear" />
